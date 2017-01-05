@@ -12,10 +12,7 @@ class Document extends Model
         parent::boot();
 
         static::updating(function($document) {
-            $document->adjustments()->attach(Auth::id(), [
-                'before' => $document->fresh()->toJson(),
-                'after' => json_encode($document->getDirty())
-            ]);
+            $document->adjust();
         });
     }
 
@@ -25,5 +22,22 @@ class Document extends Model
                     ->withPivot(['before', 'after'])
                     ->withTimestamps()
                     ->latest('pivot_updated_at');
+    }
+
+    public function adjust($userId = null)
+    {
+        $userId = $userId ?: Auth::id();
+
+        return $this->adjustments()->attach($userId, $this->getDiff());
+    }
+
+    protected function getDiff()
+    {
+        $changed = $this->getDirty();
+
+        $before = json_encode(array_intersect_key($this->fresh()->toArray(), $changed));
+        $after = json_encode($changed);
+
+        return compact('before', 'after');
     }
 }
