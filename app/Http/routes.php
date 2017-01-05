@@ -16,3 +16,5 @@ Auth::loginUsingId(1);
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('lessons', 'LessonController@index');

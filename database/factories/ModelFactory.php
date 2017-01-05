@@ -26,3 +26,13 @@ $factory->define(App\Document::class, function(Faker\Generator $faker) {
         'body' => $faker->paragraph
     ];
 });
+
+$factory->define(App\Lesson::class, function(Faker\Generator $faker) {
+    return [
+        'title' => $faker->sentence,
+        'body' => $faker->paragraph,
+        'views' => $faker->numberBetween(1, 1000),
+        'length' => $faker->numberBetween(1, 1000),
+        'difficulty' => $faker->randomElement(['beginner', 'intermediate', 'advanced'])
+    ];
+});
