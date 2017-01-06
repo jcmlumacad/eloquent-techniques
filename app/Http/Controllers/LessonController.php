@@ -15,7 +15,6 @@ class LessonController extends Controller
 
     public function index(LessonFilters $filters)
     {
-        // return $this->lesson->find(1);
         return $this->lesson->filter($filters);
     }
 }

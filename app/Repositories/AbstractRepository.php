@@ -19,7 +19,7 @@ abstract class AbstractRepository
         return $this->model->findOrFail($id);
     }
 
-    public function create($attrs = []);
+    public function create($attrs = [])
     {
         return $this->model->fill($attrs)->save();
     }
